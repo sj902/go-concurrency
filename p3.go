@@ -14,28 +14,28 @@ import (
 	"sync"
 )
 
-func p3()  {
+func p3() {
 	ch := make(chan int, 3)
 	wg := sync.WaitGroup{}
 	wg.Add(3)
-    go run(ch, &wg)
 	go run(ch, &wg)
 	go run(ch, &wg)
-    add(ch)
+	go run(ch, &wg)
+	add(ch)
 	wg.Wait()
 }
 
-func add(ch chan<- int)  {
+func add(ch chan<- int) {
 	for i := 0; i < 10; i++ {
 		ch <- i
 	}
 	close(ch)
 }
 
-func run(ch <-chan int, wg *sync.WaitGroup){
+func run(ch <-chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	for{
-		msg, ok := <- ch
+	for {
+		msg, ok := <-ch
 
 		if !ok {
 			break

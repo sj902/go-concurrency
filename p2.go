@@ -36,8 +36,8 @@ func ping(a chan int) {
 
 func pong(a chan int) {
 	for {
-		msg, ok := <- a
-		if !ok{
+		msg, ok := <-a
+		if !ok {
 			break
 		}
 		fmt.Printf("Pong %v\n", msg)

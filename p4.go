@@ -17,12 +17,12 @@ import (
 
 type count struct {
 	ctr int
-	m sync.Mutex
+	m   sync.Mutex
 }
 
-func p4(){
-	strings := []string {"1","2", "3", "4", "5"}
-	wg:=  sync.WaitGroup{}
+func p4() {
+	strings := []string{"1", "2", "3", "4", "5"}
+	wg := sync.WaitGroup{}
 	c := count{}
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
@@ -32,7 +32,7 @@ func p4(){
 	fmt.Printf("count %v \n", c.ctr)
 }
 
-func process(str string, c *count, wg *sync.WaitGroup)  {
+func process(str string, c *count, wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println(str)
 	c.m.Lock()

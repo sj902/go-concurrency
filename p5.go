@@ -17,34 +17,34 @@ import (
 
 type counter struct {
 	count int
-	m sync.Mutex
+	m     sync.Mutex
 }
 
-func (c *counter) incr()  {
+func (c *counter) incr() {
 	c.m.Lock()
-	c.count = c.count+1
+	c.count = c.count + 1
 	c.m.Unlock()
 }
 
-func (c *counter) decr()  {
+func (c *counter) decr() {
 	c.m.Lock()
-	c.count = c.count-1
+	c.count = c.count - 1
 	c.m.Unlock()
 }
 
 func (c *counter) Value() int {
-    c.m.Lock()
-    defer c.m.Unlock()
-    return c.count
+	c.m.Lock()
+	defer c.m.Unlock()
+	return c.count
 }
 
-func p5()  {
+func p5() {
 	c := counter{}
 	wg := sync.WaitGroup{}
 
 	for i := 0; i < 50; i++ {
 		wg.Add(1)
-		go func ()  {
+		go func() {
 			defer wg.Done()
 			c.incr()
 		}()
@@ -52,12 +52,11 @@ func p5()  {
 
 	for i := 0; i < 50; i++ {
 		wg.Add(1)
-		go func ()  {
+		go func() {
 			defer wg.Done()
 			c.decr()
 		}()
 	}
-
 
 	wg.Wait()
 	fmt.Printf("Count :%v\n", c.Value())

@@ -17,8 +17,8 @@ import (
 	"sync"
 )
 
-func p6()  {
-	input := make(chan int) 
+func p6() {
+	input := make(chan int)
 	sq := make(chan int)
 	wg := sync.WaitGroup{}
 	wg.Add(1)
@@ -28,33 +28,32 @@ func p6()  {
 	wg.Wait()
 }
 
-func print(sq <-chan int, wg *sync.WaitGroup)  {
+func print(sq <-chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	for{
-		msg, ok := <- sq
-		if(!ok){
+	for {
+		msg, ok := <-sq
+		if !ok {
 			return
 		}
 		fmt.Printf("Recd. %v\n", msg)
 	}
 }
 
-func square(input <-chan int, sq chan<- int)  {
+func square(input <-chan int, sq chan<- int) {
 	defer close(sq)
-	for{
-		msg, ok := <- input
-		if(!ok){
+	for {
+		msg, ok := <-input
+		if !ok {
 			return
 		}
-		sq <- msg*msg
+		sq <- msg * msg
 	}
 }
 
-func generate(input chan<- int){
+func generate(input chan<- int) {
 	defer close(input)
 	count := 5
 	for i := 0; i < count; i++ {
-		input <- i+1
+		input <- i + 1
 	}
 }
-
